@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+//Route::view('login','login');
+Route::get('/login', function () {
+    if (session()->has('user')) {
+        return redirect('profile');
+    }
+    return view('login');
+});
+Route::post('user', [UserAuth::class, 'userLogin']);
+Route::middleware(['checkAuth'])->group(function () {
+    
+
+    Route::view('profile', 'profile');
+
+    Route::get('/logout', function () {
+        if (session()->has('user')) {
+            session()->forget('user');
+        }
+        return redirect('login');
+    });
 });

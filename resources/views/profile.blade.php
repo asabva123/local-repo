@@ -1,2 +1,3 @@
-<h1>this is new repo</h1>
-<h3>second changes</h3>
+<h1>Profile</h1>
+<p>Hello , {{session('user')}}</p>
+<a href="/logout">Logout</a>
