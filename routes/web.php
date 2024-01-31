@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuth;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,9 @@ use App\Http\Controllers\UserAuth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('register');
 });
+
 //Route::view('login','login');
 Route::get('/login', function () {
     if (session()->has('user')) {
@@ -26,8 +28,8 @@ Route::get('/login', function () {
 });
 Route::post('user', [UserAuth::class, 'userLogin']);
 Route::middleware(['checkAuth'])->group(function () {
-    
 
+    Route::resource('users', UserController::class);
     Route::view('profile', 'profile');
 
     Route::get('/logout', function () {
@@ -37,3 +39,25 @@ Route::middleware(['checkAuth'])->group(function () {
         return redirect('login');
     });
 });
+
+// Route::get('/', function () {
+//     return view('register');
+// });
+
+// Route::get('/login', function () {
+//     if (session()->has('user')) {
+//         return redirect('profile');
+//     }
+//     return view('login');
+// });
+
+// Route::post('user/login', [UserController::class, 'login']);
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::resource('users', UserController::class); // Exclude create, store, and destroy actions
+//     Route::view('profile', 'profile');
+//     Route::get('/logout', function () {
+//         auth()->logout();
+//         return redirect('login');
+//     });
+// });
